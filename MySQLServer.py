@@ -16,15 +16,19 @@ def create_database():
 
             print("Database 'alx_book_store' created successfully!")
 
-    except Error as err:
+    except mysql.connector.Error as err:
         print(f"Error: {err}")
 
     finally:
         # Close connection safely
-        if connection.is_connected():
-            cursor.close()
-            connection.close()
+        try:
+            if  connection.is_connected():
+                cursor.close()
+                connection.close()
             # print("MySQL connection is closed")
+        except NameError:
+            # connection variable might not exist if connection failed
+            pass
 
 if __name__ == "__main__":
     create_database()
